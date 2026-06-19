@@ -19,13 +19,14 @@ void Solve() {
     for (ll i=1; i<n; i++) {
         prefixSum[i] = prefixSum[i-1] + s[i] - '0' + 1;
     }
-    string curr = "";
+    ll currLength = 0;
     ll beautyCount = 0, altCount = 0;
     for (ll i=0; i<n; i++) {
-        curr += s[i];
-        if (s[i] == s[i+1] && i+1 < n) {
-            altCount += (curr.length() * (curr.length() + 1)) / 2;
-            curr = "";
+        if (i > 0 && s[i] == s[i-1]) {
+            altCount += (currLength * (currLength + 1)) / 2;
+            currLength = 1;
+        } else {
+            currLength++;
         }
         for (ll j=i; j<n; j++) {
             ll curr;
