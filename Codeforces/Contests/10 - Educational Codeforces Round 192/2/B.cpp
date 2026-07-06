@@ -8,18 +8,29 @@ using namespace std;
 #define vin(v) for (auto &x : v) cin >> x
 #define vout(v) for (auto &x : v) cout << x << ' '; cout << endl
 
-void Solve() {
-    ll k, temp, count = 0;
-    cin >> k;
-    for (ll i=0; i<k; i++) {
-        cin >> temp;
-        if (temp > 2) {
-            cout << "YES\n";
-            return;
+ll n;
+vector<ll> a;
+
+bool Branch(ll start) {
+    vector<ll> count(4, 0);
+    for (ll i=start; i<n; i++) {
+        count[a[i]]++;
+        if (count[1] + count[2] >= count[3] && i < n-1) {
+            return true;
         }
-        if (temp == 2) {
-            count++;
-            if (count == 2) {
+    }
+    return false;
+}
+
+void Solve() {
+    cin >> n;
+    a.resize(n);
+    vin(a);
+    vector<ll> count(4, 0);
+    for (ll i=0; i<n; i++) {
+        count[a[i]]++;
+        if (count[1] >= count[2] + count[3]) {
+            if (Branch(i+1)) {
                 cout << "YES\n";
                 return;
             }
