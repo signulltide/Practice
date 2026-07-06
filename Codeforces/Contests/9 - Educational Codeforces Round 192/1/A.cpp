@@ -1,7 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <math.h>
 using namespace std;
 
 #define fastIO ios_base::sync_with_stdio(false); cin.tie(NULL);
@@ -10,23 +8,24 @@ using namespace std;
 #define vin(v) for (auto &x : v) cin >> x
 #define vout(v) for (auto &x : v) cout << x << ' '; cout << endl
 
-ll gcd(ll a, ll b) {
-    if (b == 0) {
-        return a;
-    }
-    return gcd(b, a%b);
-}
-
 void Solve() {
-    ll n;
-    cin >> n;
-    vector<ll> arr(n);
-    vin(arr);
-    ll k = arr[0] - 1;
-    for (ll i=1; i<n; i++) {
-        k = gcd(min(k, arr[i] - i - 1), max(k, arr[i] - i - 1));
+    ll k, temp, count = 0;
+    cin >> k;
+    for (ll i=0; i<k; i++) {
+        cin >> temp;
+        if (temp > 2) {
+            cout << "YES\n";
+            return;
+        }
+        if (temp == 2) {
+            count++;
+            if (count == 2) {
+                cout << "YES\n";
+                return;
+            }
+        }
     }
-    cout << abs(k) << endl;
+    cout << "NO\n";
 }
 
 int main() {

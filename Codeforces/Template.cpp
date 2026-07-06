@@ -8,7 +8,7 @@ using namespace std;
 #define vout(v) for (auto &x : v) cout << x << ' '; cout << endl
 
 void Solve() {
-    
+
 }
 
 int main() {
