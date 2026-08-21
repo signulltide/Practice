@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <utility>
 #include <algorithm>
+#include <utility>
 using namespace std;
 
 #define fastIO ios_base::sync_with_stdio(false); cin.tie(NULL);
@@ -13,25 +13,29 @@ using namespace std;
 void Solve() {
     ll n, temp;
     cin >> n;
-    vector<ll> arr(n), prefixSum;
-    vector<ll> sorted;
+    vector<pair<ll, ll>> arr; // val, index
     for (ll i=0; i<n; i++) {
         cin >> temp;
-        arr[i] = temp;
-        sorted[i] = temp;
+        arr.push_back({temp, i});
     }
-
-    sort(sorted.begin(), sorted.end());
-
-    prefixSum.push_back(sorted[0]);
+    sort(arr.begin(), arr.end());
+    vector<ll> pref(n);
+    pref[0] = arr[0].first;
     for (ll i=1; i<n; i++) {
-        prefixSum.push_back(prefixSum[i-1] + sorted[i]);
+        pref[i] = pref[i-1] + arr[i].first;
     }
-
-    for (ll i=0; i<n; i++) {
-        auto lower = lower_bound(sorted.begin(), sorted.end(), prefixSum[find(sorted.begin(), sorted.end(), arr[i]) - sorted.begin()]) - sorted.begin();
-        // WHAT THE FUCK??
+    vector<ll> ans(n, 0), res(n);
+    ans[n-1] = n-1;
+    res[arr[n-1].second] = n-1;
+    for (ll i=n-2; i>=0; i--) {
+        if (pref[i] >= arr[i+1].first) {
+            ans[i] = ans[i+1];
+        } else {
+            ans[i] = i;
+        }
+        res[arr[i].second] = ans[i];
     }
+    vout(res);
 }
 
 int main() {
