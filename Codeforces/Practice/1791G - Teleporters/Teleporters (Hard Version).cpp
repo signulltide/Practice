@@ -29,7 +29,43 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    
+    ll n, c;
+    in(n, c);
+    vector<ll> arr(n);
+    map<ll, ll> pos;
+    vector<pair<ll, ll>> cost(n);
+    vin(arr);
+    rep(i, 0, n) {
+        cost[i] = {min(arr[i] + i + 1, arr[i] + n - i), i};
+    }
+    sort(all(cost));
+    vector<ll> pref(n, 0);
+    pref[0] = cost[0].ff;
+    rep(i, 0, n) {
+        pos[cost[i].ss] = i;
+        if (i == 0) continue;
+        pref[i] = pref[i - 1] + cost[i].ff;
+    }
+    ll most = 0;
+    rep(i, 0, n) {
+        ll start_cost = arr[i] + i + 1;
+        ll min_cost_i = min(arr[i] + i + 1, arr[i] + n - i);
+
+        if (c >= start_cost) {
+            ll rem = c - start_cost;
+            
+            auto it = upper_bound(pref.begin(), pref.end(), rem);
+            
+            if (pos[i] >= distance(pref.begin(), it)) {
+                most = max(most, distance(pref.begin(), it) + 1);
+            } else {
+                auto it_new = upper_bound(pref.begin(), pref.end(), rem + min_cost_i);
+                most = max(most, distance(pref.begin(), it_new));
+            }
+        }
+    }
+
+    out(most);
 }
 
 int main() {
@@ -38,7 +74,9 @@ int main() {
     ll testCount;
     cin >> testCount;
 
-    while (testCount--) Solve();
+    while (testCount--) {
+        Solve();
+    };
 
     return 0;
 }

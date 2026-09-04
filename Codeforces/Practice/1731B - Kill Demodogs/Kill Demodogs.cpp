@@ -29,7 +29,19 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    
+    ll n;
+    in(n);
+
+    ll a = n % MOD1;
+    ll b = (n + 1) % MOD1;
+    ll c = (4 * (n % MOD1) - 1 + MOD1) % MOD1;
+
+    ll ans = 337;
+    ans = (ans * a) % MOD1;
+    ans = (ans * b) % MOD1;
+    ans = (ans * c) % MOD1;
+
+    out(ans);
 }
 
 int main() {

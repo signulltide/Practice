@@ -29,7 +29,20 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    
+    ll n, c;
+    in(n, c);
+    vector<ll> arr(n), cost(n, 0);
+    vin(arr);
+    rep(i, 0, n) {
+        cost[i] = arr[i] + i + 1;
+    }
+    sort(all(cost));
+    ll i = 0;
+    while (c >= cost[i] && i < n) {
+        c -= cost[i];
+        i++;
+    }
+    out(i);
 }
 
 int main() {

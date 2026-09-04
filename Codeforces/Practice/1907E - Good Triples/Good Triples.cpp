@@ -28,12 +28,28 @@ using namespace __gnu_cxx;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
+vector<ll> combinations(10, 0);
+
 void Solve() {
-    
+    string n;
+    in(n);
+    ll ans = 1;
+    for (ll d : n) {
+        ans *= combinations[d - '0'];
+    }
+    out(ans);
 }
 
 int main() {
     fastIO;
+
+    rep(i, 0, 10) {
+        rep(j, 0, 10) {
+            rep(k, 0, 10) {
+                if (i + j + k <= 9) combinations[i + j + k]++;
+            }
+        }
+    }
 
     ll testCount;
     cin >> testCount;

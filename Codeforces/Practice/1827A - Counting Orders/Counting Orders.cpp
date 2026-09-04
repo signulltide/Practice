@@ -15,21 +15,42 @@ using namespace __gnu_cxx;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 
-#define ff first
-#define ss second
-
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
 #define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
 #define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
-#define rep(i, a, b) for (ll i=a; i<b; i++)
-
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    
+    ll n;
+    in(n);
+    vector<ll> a(n), b(n);
+    vin(a, b);
+
+    sort(all(a)); sort(all(b));
+    //vout(a, b);
+
+    ll ia = 0, ib = 0;
+    vector<ll> more(n);
+    while (ia < n) {
+        if (ib < n && b[ib] < a[ia]) {
+            ib++;
+        } else if (ia < n) {
+            more[ia] = ib;
+            ia++;
+        }
+    }
+    ll curr = 1;
+    for (ll i = 0; i < n; i++) {
+        if (more[i] <= i) {
+            curr = 0;
+            break;
+        }
+        curr = (curr * (more[i] - i)) % MOD1;
+    }
+    cout << curr << endl;
 }
 
 int main() {
