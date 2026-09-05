@@ -29,26 +29,54 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    ll n, x, y;
-    in(n, x, y);
-    vector<ll> arr(n);
-    map<ll, map<ll, ll>> mp;
-    vin(arr);
+    ll n;
+    in(n);
+    vector<ll> a(n);
+
+    vector<ll> cnt(n + 2, 0); 
     rep(i, 0, n) {
-        ll idx = arr[i] % x;
-        if (idx > x/2) idx = x - idx;
-        mp[arr[i] % y][idx]++;
-    }
-    ll ans = 0;
-    for (auto &[g, mpx] : mp) {
-        out(g);
-        for (auto &[rem, occ] : mpx) {
-            ans += occ / 2;
-            out(rem, occ);
+        in(a[i]);
+        if (a[i] <= n + 1) {
+            cnt[a[i]]++;
         }
     }
+
+    if (cnt[0] == 1) {
+        out("NO");
+        return;
+    }
+
+    out("YES");
+    
+    ll m = 0;
+    while (cnt[m] >= 2) {
+        m++;
+    }
+
+    string ans = "";
+
+    vector<ll> seen(m, 0); 
+    
+    rep(i, 0, n) {
+        if (a[i] < m) {
+            if (seen[a[i]] == 0) {
+                ans += 'B';
+                seen[a[i]]++;
+            } else if (seen[a[i]] == 1) {
+                ans += 'C';
+                seen[a[i]]++;
+            } else {
+                ans += 'A';
+            }
+        } else if (a[i] == 2 * m) {
+            ans += 'B';
+        } else {
+            ans += 'A';
+        }
+    }
+
     out(ans);
-    out("=====================");
+    
 }
 
 int main() {

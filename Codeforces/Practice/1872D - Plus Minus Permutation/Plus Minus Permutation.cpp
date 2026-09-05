@@ -31,24 +31,12 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 void Solve() {
     ll n, x, y;
     in(n, x, y);
-    vector<ll> arr(n);
-    map<ll, map<ll, ll>> mp;
-    vin(arr);
-    rep(i, 0, n) {
-        ll idx = arr[i] % x;
-        if (idx > x/2) idx = x - idx;
-        mp[arr[i] % y][idx]++;
-    }
-    ll ans = 0;
-    for (auto &[g, mpx] : mp) {
-        out(g);
-        for (auto &[rem, occ] : mpx) {
-            ans += occ / 2;
-            out(rem, occ);
-        }
-    }
-    out(ans);
-    out("=====================");
+    ll o = n / ((x * y) / __gcd(x, y));
+    ll a = n / x - o;
+    ll b = n / y - o;
+    ll sa = ((n * (n + 1)) / 2) - (((n-a) * ((n-a) + 1)) / 2);
+    ll sb = (b * (b + 1)) / 2;
+    out(sa - sb);
 }
 
 int main() {

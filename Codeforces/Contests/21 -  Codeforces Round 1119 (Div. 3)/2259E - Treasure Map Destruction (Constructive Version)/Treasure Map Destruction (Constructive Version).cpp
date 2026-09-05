@@ -29,26 +29,63 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    ll n, x, y;
-    in(n, x, y);
-    vector<ll> arr(n);
-    map<ll, map<ll, ll>> mp;
-    vin(arr);
-    rep(i, 0, n) {
-        ll idx = arr[i] % x;
-        if (idx > x/2) idx = x - idx;
-        mp[arr[i] % y][idx]++;
-    }
-    ll ans = 0;
-    for (auto &[g, mpx] : mp) {
-        out(g);
-        for (auto &[rem, occ] : mpx) {
-            ans += occ / 2;
-            out(rem, occ);
+    ll n;
+    in(n);
+    vector<ll> b(n), a(n, 1);
+    vin(b);
+    rep(i, 0, n-1) {
+        if (b[i] == -1 || b[i+1] == -1) {
+            continue;
+        }
+        if (abs(b[i] - b[i+1]) > 1) {
+            out(-1);
+            return;
         }
     }
-    out(ans);
-    out("=====================");
+    rep(i, 0, n) {
+        if (b[i] != -1) {
+            rep(j, i-b[i]+1, i+b[i]) {
+                if (j < 0 || j >= n) continue;
+                a[j] = 0;
+            }
+        }
+    }
+    rep(i, 0, n-1) {
+        if (b[i] == -1 || b[i+1] == -1) {
+            continue;
+        }
+        if (abs(b[i] - b[i+1]) > 1) {
+            out(-1);
+            return;
+        }
+    }
+    rep(i, 0, n) {
+        if (b[i] != -1) {
+            if (i-b[i] >= 0 && i+b[i] < n) {
+                if (a[i-b[i]] == 0 && a[i+b[i]] == 0) {
+                    out(-1);
+                    return;
+                }
+            } else if (i-b[i] >= 0) {
+                if (a[i-b[i]] == 0) {
+                    out(-1);
+                    return;
+                }
+            } else if (i+b[i] < n) {
+                if (a[i+b[i]] == 0) {
+                    out(-1);
+                    return;
+                }
+            } else {
+                out(-1);
+                return;
+            }
+        }
+    }
+    for (ll aa : a) {
+        cout << aa;
+    }
+    cout << endl;
 }
 
 int main() {

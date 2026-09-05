@@ -29,26 +29,31 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void Solve() {
-    ll n, x, y;
-    in(n, x, y);
+    ll n;
+    in(n);
     vector<ll> arr(n);
-    map<ll, map<ll, ll>> mp;
     vin(arr);
-    rep(i, 0, n) {
-        ll idx = arr[i] % x;
-        if (idx > x/2) idx = x - idx;
-        mp[arr[i] % y][idx]++;
-    }
-    ll ans = 0;
-    for (auto &[g, mpx] : mp) {
-        out(g);
-        for (auto &[rem, occ] : mpx) {
-            ans += occ / 2;
-            out(rem, occ);
+    ll last = 0;
+    ll change_to = 1;
+    ll last_changed = -1;
+    for (ll i=0; i<n; i++) {
+        if (arr[i] == 1) {
+            change_to = 0;
+        } else if (arr[i] == -1) {
+            arr[i] = change_to;
+            change_to = 0;
+            last_changed = i;
         }
     }
-    out(ans);
-    out("=====================");
+    change_to = 1;
+    for (ll i=n-1; i>=0; i--) {
+        if (arr[i] == 1) {
+            break;
+        } else if (i == last_changed) {
+            arr[i] = change_to;
+        }
+    }
+    vout(arr);
 }
 
 int main() {
